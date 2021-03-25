@@ -1,12 +1,35 @@
 Package: volcanoPlot
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Disply Volcano Plot for Adverse Events.
+Version: 0.3
+Authors@R: as.person(c(
+    "Xiao Ni <xni@sarepta.com> [aut, cre]", 
+    "Isaac Zhao <Isaac.Zhao@alkermes.com> [aut]",
+    "Jeremy Wildfire <jeremy.wildfire@gilead.com> [aut]",
+    "Dennis O'brien <dennis.obrien@boehringer-ingelheim.com> [aut]",
+    "Hong Wang<hong_2.wang@boehringer-ingelheim.com> [aut]",
+    "Ke Xiao<ke.xiao@boehringer-ingelheim.com> [aut]"
+  ))
+Description: Disply Volcano Plot for Adverse Events.
+License: MIT
+Imports:
+    shiny,
+    shinyjs,
+    data.table,
+    DT,
+    ggplot2,
+    plotly,
+    scales,
+    shinycssloaders,
+    dplyr,
+    tidyr,
+    survival,
+    survminer,
+    fmsb,
+    cowplot,
+    shinyWidgets,
+    pkgload,
+    safetyData
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
