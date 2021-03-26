@@ -18,8 +18,8 @@ run_app <- function(onStart = NULL, options = list(), enableBookmarking = NULL) 
     options = options,
     enableBookmarking = enableBookmarking
   )
-  #runApp(app, launch.browser = TRUE)
-  runApp(app, launch.browser = FALSE)
+  runApp(app, launch.browser = TRUE)
+  #runApp(app, launch.browser = FALSE)
 }
 
 

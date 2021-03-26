@@ -9,16 +9,29 @@ app_server <- function(input, output, session) {
     print("serving")
     
     
+    
     ### Data uploading -----------------------------------------------------------
-    ae_test_data <- reactive({
+    ae_test_data_upload <- reactive({
         req(input$file_ae_test)
-        ae_test_data = fread(input$file_ae_test$datapath) %>% as.data.frame()
+        ae_test_data_upload = fread(input$file_ae_test$datapath) %>% as.data.frame()
     })
     
     
     # once data is loaded, all other inputs are loaded
     output$fileUploaded <- reactive({ return(!is.null(ae_test_data())) })
     outputOptions(output, 'fileUploaded', suspendWhenHidden=FALSE)
+    
+    
+    # test data
+    ae_test_data <- reactive({
+        if(input$choose_input == "Sample data") {
+            ae_test_data <- read.csv("./data/test_data.csv")
+        } else {
+            req(input$file_ae_test)
+            ae_test_data <- ae_test_data_upload()
+        }
+        ae_test_data
+    })
     
     
     ### Extract all arms ---------------------------------------------------------
@@ -42,12 +55,12 @@ app_server <- function(input, output, session) {
     
     output$comparison_group_UI <- renderUI({
         #req(input$summary_by != "Events")
-        selectizeInput("comparison_group", "Comparison Group",choices = setdiff(ARMCD(), input$reference_group), selected = setdiff(ARMCD(), input$reference_group)[1], multiple=TRUE)
+        selectizeInput("comparison_group", "Group 1",choices = setdiff(ARMCD(), input$reference_group), selected = setdiff(ARMCD(), input$reference_group)[1], multiple=TRUE)
     })
     
     output$reference_group_UI <- renderUI({
         #req(input$summary_by != "Events")
-        selectizeInput("reference_group", "Reference Group", choices = ARMCD(), selected = ARMCD()[1], multiple=TRUE)
+        selectizeInput("reference_group", "Group 2 (Reference)", choices = ARMCD(), selected = ARMCD()[1], multiple=TRUE)
     })
     
     
@@ -55,13 +68,13 @@ app_server <- function(input, output, session) {
         req(input$file_ae_test)
         req(!is.null(input$reference_group))
         if(length(input$reference_group) == 0) {
-            shinyjs::alert("Please select Group A.")
+            shinyjs::alert("Please select Group 1.")
             return()
         }
         
         req(!is.null(input$comparison_group))
         if(length(input$comparison_group) == 0) {
-            shinyjs::alert("Please select Group B.")
+            shinyjs::alert("Please select Group 2.")
             return()
         }
     })
@@ -142,6 +155,7 @@ app_server <- function(input, output, session) {
                 reference_group = input$reference_group,
                 comparison_group = input$comparison_group,
                 pvalue_label = input$pvalue_label,
+                pvalue_adj_refline = input$pvalue_adj_refline,
                 X_ref = input$X_ref
             )
         })

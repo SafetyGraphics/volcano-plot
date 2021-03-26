@@ -9,6 +9,7 @@ volcano.plot <- function(filtered_data,
                          comparison_group,
                          reference_group,
                          pvalue_label,
+                         pvalue_adj_refline,
                          X_ref
                          )
 {
@@ -47,7 +48,7 @@ volcano.plot <- function(filtered_data,
     scale_x_continuous(paste(calculation.type,"Comparison Group vs. Reference Group"),expand = expansion(mult = c(0.05, 0.05)))+
     scale_size_continuous(range = c(2, 12))
   
-  if (nrow(significant_data)!=0){ p = p+geom_hline(yintercept = pvalue_adj0.05, color = 'grey30', linetype = "dotted") }
+  if (nrow(significant_data)!=0 & pvalue_adj_refline=="Yes"){ p = p+geom_hline(yintercept = pvalue_adj0.05, color = 'grey30', linetype = "dotted") }
   
   if (pvalue_label=="-log10"){
    p=p+ scale_y_continuous("-log10(p-value)",
